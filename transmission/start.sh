@@ -30,3 +30,6 @@ else
 fi
 
 echo "Transmission startup script complete."
+
+/home/deluge/start.sh &
+echo "Deluge startup script complete."

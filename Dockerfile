@@ -17,6 +17,13 @@ RUN apt-get update \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
+RUN apt-get install -qy software-properties-common && \
+    add-apt-repository ppa:deluge-team/ppa && \
+    apt-get update -q && \
+    apt-get install -qy deluged deluge-web
+
+ADD deluge/ /home/deluge/
+
 # Add configuration and scripts
 ADD openvpn/ /etc/openvpn/
 ADD transmission/ /etc/transmission/
@@ -99,4 +106,10 @@ ENV OPENVPN_USERNAME=**None** \
 
 # Expose port and run
 EXPOSE 9091
+EXPOSE 53160
+EXPOSE 53160/udp
+# WebUI
+EXPOSE 8112
+# Daemon
+EXPOSE 58846
 CMD ["/etc/openvpn/start.sh"]
