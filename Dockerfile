@@ -8,19 +8,21 @@ MAINTAINER Kristian Haugene
 VOLUME /data
 VOLUME /config
 
+RUN apt-get update -y && \
+    apt-get install -qy software-properties-common && \
+    add-apt-repository ppa:deluge-team/ppa && \
+    apt-get update && \
+    apt-get install -qy deluged deluge-web traceroute
+#    add-apt-repository ppa:deluge-team/ppa && \
+
 # Update packages and install software
 RUN apt-get update \
-    && apt-get -y install software-properties-common \
     && add-apt-repository ppa:transmissionbt/ppa \
     && apt-get update \
     && apt-get install -y transmission-cli transmission-common transmission-daemon openvpn curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -L https://github.com/jwilder/dockerize/releases/download/v0.0.2/dockerize-linux-amd64-v0.0.2.tar.gz | tar -C /usr/local/bin -xzv
 
-RUN apt-get install -qy software-properties-common && \
-    add-apt-repository ppa:deluge-team/ppa && \
-    apt-get update -q && \
-    apt-get install -qy deluged deluge-web
 
 ADD deluge/ /home/deluge/
 

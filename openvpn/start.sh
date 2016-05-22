@@ -38,11 +38,4 @@ else
   chmod 600 /config/openvpn-credentials.txt
 fi
 
-# add transmission credentials from env vars
-echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
-echo $TRANSMISSION_RPC_PASSWORD >> /config/transmission-credentials.txt
-
-# Persist transmission settings for use by transmission-daemon
-dockerize -template /etc/transmission/environment-variables.tmpl:/etc/transmission/environment-variables.sh /bin/true
-
 exec openvpn --config "$OPENVPN_CONFIG"
